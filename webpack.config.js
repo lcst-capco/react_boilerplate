@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { jsonBeautify } = require('beautify-json');
 
@@ -58,8 +59,8 @@ let config = {
 module.exports = (env, argv) => {
   config.mode = argv.mode;
   if (argv.mode === 'development') {
-    config.entry = ['react-hot-loader/patch', './src'];
     config.devtool = 'inline-source-map';
+    config.plugins.push(new ReactRefreshWebpackPlugin())
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
     config.devServer = {
       port: port,
